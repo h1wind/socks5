@@ -1,0 +1,5 @@
+Diagnostics:
+  UnusedIncludes: None
+
+InlayHints:
+  Enabled: No
