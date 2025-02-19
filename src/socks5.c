@@ -904,7 +904,7 @@ int socks5_server_init(socks5_server_t *server,
     struct event_base *event_base;
     struct evdns_base *evdns_base;
     struct sockaddr_storage ss;
-    int flag;
+    int flag = 0;
     int slen;
 
     slen = (int)sizeof(ss);
@@ -936,7 +936,9 @@ int socks5_server_init(socks5_server_t *server,
     }
     debug("new [event_base:%p]", event_base);
 
-    flag = (nameserver == NULL) ? 0 : 1;
+    if (nameserver == NULL) {
+        flag |= EVDNS_BASE_INITIALIZE_NAMESERVERS;
+    }
 
     evdns_base = evdns_base_new(event_base, flag);
     if (evdns_base == NULL) {
@@ -945,9 +947,11 @@ int socks5_server_init(socks5_server_t *server,
     }
     debug("new [evdns_base:%p]", evdns_base);
 
-    if (!flag && evdns_base_nameserver_ip_add(evdns_base, nameserver) != 0) {
-        debug("evdns_base_nameserver_ip_add failed");
-        goto error_evdns_add_nameserver;
+    if (nameserver != NULL) {
+        if (evdns_base_nameserver_ip_add(evdns_base, nameserver) != 0) {
+            debug("evdns_base_nameserver_ip_add failed");
+            goto error_evdns_add_nameserver;
+        }
     }
 
     listener = evconnlistener_new_bind(
