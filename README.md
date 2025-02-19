@@ -10,8 +10,12 @@ cd socks5
 git submodule update --init --recursive
 mkdir build
 cd build
+
+# Debug mode
+# cmake -DCMAKE_BUILD_TYPE:STRING=Debug ..
+
 cmake ..
-cmake --build . --target socks5 --config Release
+cmake --build . --target socks5
 ```
 
 usage
