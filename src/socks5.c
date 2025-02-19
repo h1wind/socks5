@@ -68,11 +68,11 @@ static int negotiate_auth_method(socks5_session_t *session) {
 
     input = bufferevent_get_input(session->source);
 
-    //+----+----------+----------+
-    //|VER | NMETHODS | METHODS  |
-    //+----+----------+----------+
-    //| 1  |    1     | 1 to 255 |
-    //+----+----------+----------+
+    // +----+----------+----------+
+    // |VER | NMETHODS | METHODS  |
+    // +----+----------+----------+
+    // | 1  |    1     | 1 to 255 |
+    // +----+----------+----------+
 
     n = evbuffer_copyout(input, buf, 2);
     if (n < 2) {
