@@ -11,7 +11,7 @@ git submodule update --init --recursive
 mkdir build
 cd build
 cmake ..
-cmake --build . --config Release
+cmake --build . --target socks5 --config Release
 ```
 
 usage
