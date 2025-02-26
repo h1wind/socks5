@@ -231,6 +231,7 @@ static int authentication(socks5_session_t *session) {
         debug("[socks5_session:%p] wrong username and password", session);
         return -1;
     }
+    debug("[socks5_session:%p] authentication success");
 
     session->step = HANDLE_REQUEST;
 
@@ -703,19 +704,16 @@ static void read_cb(struct bufferevent *bufev, void *ptr) {
 
     (void)bufev;
 
-    switch (session->step) {
-    case NEGOTIATE_AUTH_METHOD:
+    if (session->step == NEGOTIATE_AUTH_METHOD) {
         ret = negotiate_auth_method(session);
-        break;
-    case AUTHENTICATION:
+    }
+
+    if (session->step == AUTHENTICATION) {
         ret = authentication(session);
-        break;
-    case HANDLE_REQUEST:
+    }
+
+    if (session->step == HANDLE_REQUEST) {
         ret = handle_request(session);
-        break;
-    default:
-        assert(false);
-        break;
     }
 
     if (ret == 0) {
