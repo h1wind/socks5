@@ -5,7 +5,7 @@ A socks5 server for testing libevent, Can support linux/windows/macos, but only 
 build
 
 ```shell
-git clone https://github.com/hitoor/socks5.git
+git clone https://github.com/h1wind/socks5.git
 cd socks5
 git submodule update --init --recursive
 mkdir build
