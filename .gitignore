@@ -2,3 +2,8 @@
 .cache
 .vscode
 build
+
+# Test files and build artifacts
+src/*.gch
+src/test_*
+src/test_stub.c
