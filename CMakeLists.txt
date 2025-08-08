@@ -12,7 +12,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+    # set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
 endif()
 
 add_subdirectory(deps)
