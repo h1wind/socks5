@@ -28,7 +28,7 @@ static inline struct tm *_localtime(time_t *t) {
 #endif
 
 static inline const char *_basename(const char *str) {
-    const char *s = NULL;
+    const char *s = str;
 
     while (*str) {
         if (*str == '\\' || *str == '/') {
@@ -36,7 +36,7 @@ static inline const char *_basename(const char *str) {
         }
         str++;
     }
-    return s ? s : str;
+    return s;
 }
 
 static inline void _debug(const char *file, int line, const char *fmt, ...) {

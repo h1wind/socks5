@@ -261,7 +261,8 @@ static void parse_dest_address(socks5_session_t *session, const uint8_t *data) {
         session->daddr.port = ntohs(*(uint16_t *)(data + 16));
         break;
     default:
-        assert(false);
+        debug("[socks5_session:%p] unsupported address type: 0x%02x", 
+              session, session->atyp);
         break;
     }
 }
@@ -807,8 +808,11 @@ static void accept_cb(struct evconnlistener *listener,
         session->saddr.port = ntohs(sin6->sin6_port);
         break;
     default:
-        assert(false);
-        break;
+        debug("[socks5_session:%p] unsupported address family: %d", session, sa->sa_family);
+        debug("free [socks5_session:%p]", session);
+        free(session);
+        evutil_closesocket(sock);
+        return;
     }
 
     debug("[socks5_session:%p] recv from [%s:%d]",
