@@ -31,11 +31,12 @@ static inline const char *_basename(const char *str) {
     const char *s = NULL;
 
     while (*str) {
-        if (*str++ == '\\' || *str++ == '/') {
-            s = str;
+        if (*str == '\\' || *str == '/') {
+            s = str + 1;
         }
+        str++;
     }
-    return s;
+    return s ? s : str;
 }
 
 static inline void _debug(const char *file, int line, const char *fmt, ...) {

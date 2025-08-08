@@ -199,12 +199,10 @@ static int authentication(socks5_session_t *session) {
     user = (const char *)(buf + 2);
     pass = (const char *)(buf + 2 + ulen + 1);
 
-    debug("[socks5_session:%p] [user:%.*s pass:%.*s]",
+    debug("[socks5_session:%p] [user:%.*s pass:***]",
           session,
           ulen,
-          user,
-          plen,
-          pass);
+          user);
 
     server = session->server;
 
@@ -231,7 +229,7 @@ static int authentication(socks5_session_t *session) {
         debug("[socks5_session:%p] wrong username and password", session);
         return -1;
     }
-    debug("[socks5_session:%p] authentication success");
+    debug("[socks5_session:%p] authentication success", session);
 
     session->step = HANDLE_REQUEST;
 
@@ -271,7 +269,7 @@ static void parse_dest_address(socks5_session_t *session, const uint8_t *data) {
 static void socks5_session_close_source(socks5_session_t *session) {
     assert(session->source != NULL);
     bufferevent_setcb(session->source, NULL, NULL, NULL, NULL);
-    debug("free [bufferevent:%p]", session, session->source);
+    debug("[socks5_session:%p] free [bufferevent:%p]", session, session->source);
     bufferevent_free(session->source);
     session->source = NULL;
 }
@@ -646,7 +644,7 @@ static int handle_request(socks5_session_t *session) {
     }
 
     if (buf[2] != 0x00) {
-        debug("[ssocks5_ession:%p] fields marked rsv must be set "
+        debug("[socks5_session:%p] fields marked rsv must be set "
               "to 0x00",
               session);
         return -1;
@@ -802,7 +800,7 @@ static void accept_cb(struct evconnlistener *listener,
         break;
     case AF_INET6:
         sin6 = (struct sockaddr_in6 *)sa;
-        evutil_inet_ntop(AF_INET,
+        evutil_inet_ntop(AF_INET6,
                          &sin6->sin6_addr,
                          session->saddr.host,
                          sizeof(session->saddr.host));
@@ -1015,12 +1013,10 @@ void socks5_server_free(socks5_server_t *server) {
 
 int socks5_server_run(socks5_server_t *server) {
     debug("socks5 server started, listen (%s) [user:%.*s "
-          "pass:%.*s]",
+          "pass:***]",
           server->address,
           server->ulen,
-          server->user,
-          server->plen,
-          server->pass);
+          server->user);
     if (event_base_dispatch(server->event_base) == -1) {
         debug("event_base_dispatch failed");
         return -1;

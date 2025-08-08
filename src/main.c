@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     }
 
     printf("address: %s\n", argv[1]);
-    printf("user: %s:%s\n", argv[2], argv[3]);
+    printf("user: %s:***\n", argv[2]);
 
     socks5_server_init(&server, argv[1], argv[2], argv[3], nameserver);
     socks5_server_run(&server);
